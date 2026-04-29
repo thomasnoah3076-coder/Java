@@ -2,7 +2,7 @@
 
 Este repositorio contiene los apuntes, ejercicios y conceptos fundamentales aprendidos durante el curso de **Java desde cero** impartido por [MoureDev](https://www.youtube.com/watch?v=JOAqpdM36wI&t=29037s).
 
-El objetivo de este proyecto es servir como guía de referencia para los pilares de la Programación Orientada a Objetos (POO) y el desarrollo en Java.
+El objetivo de este proyecto es servir como guía de referencia para los pilares de la Programación Orientada a Objetos (POO) y el desarrollo en Java .
 
 ## 🚀 Conceptos Fundamentales
 
