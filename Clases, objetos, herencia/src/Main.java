@@ -1,32 +1,4 @@
-/*
-Clase: es el molde para crear un objeto de manera general.
-Objeto: es una instancia de la clase. Es decir es le creacion en si de un objeto, que tiene caracteristicas especificas y propias de
-el.
-Modificadores de acceso.
- - Public - desde cualquier punto del programa
- - (default) permite llamar desde el paquete
- - protected - solo desde la misma clase y subclases - se permite acceder desde clases hijas o herencia.
- - Prívate - solo desde dentro de la clase - no va a permitir que una instancia u objeto se le modifiquen sus atributos.
- - Final - se le asigna a una constante - no se puede modificar el valor de una variable desde adentro del programa.
-Herencia - una clase padre hereda todos sus atributos y metodos a una clase hija.
-   - La palabra reservada /super/ es una funcion muy util e importante que tenemos para llamar funciones de una clase hija a una
-     superclase. Permite llamar al constructor de la super clase de manera mas simple y despues asignar los nuevos atributos de la
-     clase hija. Tambien nos permite llamar a algun metodo de una superclase con el mismo nombre de algun metodo de una clase hija
-     (es util para distinguirlos).
-Polimorfismo - dos objetos responden de manera diferente a un mismo estimulo llamese metodo, atributo, etc.
- - Polimorfismo por herencia o sobreescritura: Las clases hijas heredan los metodos de las superclases pero pueden sobreescribrlos.
- - Polimorfismo por sobrecarga: ajustando el numero, tipo y orden de los parametros
-Abstraccion.
- - Clase abstracta: una clase abtracta es un clase particular, con la cual queremos ejecutar toda la parte logica, pero sin mostrarla
-   en otras palabras nos intereza que funcione no como funciona. Una de las caracteristicas mas importantes de una clase abstracta
-   es que no se puede instanciar por si sola.
-   public /abstract/ class Producto
- - Interfaz: es un metodo/s que no se puede implementar ni definirse, sino que la clase que lo implementa debe definirlo de manera
-   individual y unica, diferentes subclases pueden tener un "contrato (pueden ser implementadas)" con la misma interfaz.
-Manejo de errores.
 
-
-*/
 
 void main() {
     Scanner sc = new Scanner(System.in);

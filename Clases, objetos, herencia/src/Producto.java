@@ -128,7 +128,6 @@ public abstract class Producto  {
                     System.out.println("Tipo:" + p.getType());
                     System.out.println("Sabor: "+ ((Alimentos) p).getFlavor());
                     System.out.println("Textura: "+ ((Alimentos)p).getTexture());
-
                 } else {
                     System.out.println("Precio con descuento e IVA: " + p.getFinalPrice());
                     System.out.println("Precio con iva: ");
