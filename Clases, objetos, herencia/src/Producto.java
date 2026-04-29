@@ -36,6 +36,8 @@ public abstract class Producto  {
         return name;
     }
 
+    // comentario de prueba
+
     public void setName(String name) {
         this.name = name;
 //      this se utiliza para referirse a un atributo de una clase y name es la variable(parametro)
