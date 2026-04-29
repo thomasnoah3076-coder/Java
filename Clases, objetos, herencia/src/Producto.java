@@ -114,17 +114,17 @@ public abstract class Producto  {
                     // tipo producto en la array list, y necasitamos acceder a los atributos internos
                     // de un producto especifico, lo convertimos temporalmente en el objeto necesario.
                     // Tecnologia temp = (Tecnologia) p;
-                    System.out.println("Precio con descuento e IVA: " + ((Limpieza) p).getFinalPrice());
+                    System.out.println("Precio con descuento e IVA: " + p.getFinalPrice());
                     System.out.println("Tipo:" + p.getType());
                     System.out.println("Uso:" + ((Limpieza) p).getUse());
                     System.out.println("Aroma:" + ((Limpieza) p).getScent());
                 }else if (p.getType().equalsIgnoreCase("tecnologia") || p.getType().equalsIgnoreCase("tecnología")) {
-                    System.out.println("Precio con descuento e IVA: " + ((Tecnologia) p).getFinalPrice());
+                    System.out.println("Precio con descuento e IVA: " + p.getFinalPrice());
                     System.out.println("Tipo:" + p.getType());
                     System.out.println("Referencia (numérica): " + ((Tecnologia) p).getReference());
                     System.out.println("Marca: " + ((Tecnologia) p).getReference());
                 } else if (p.getType().equalsIgnoreCase("alimentos")) {
-                    System.out.println("Precio : " + ((Alimentos) p).getFinalPrice());
+                    System.out.println("Precio : " + p.getFinalPrice());
                     System.out.println("Tipo:" + p.getType());
                     System.out.println("Sabor: "+ ((Alimentos) p).getFlavor());
                     System.out.println("Textura: "+ ((Alimentos)p).getTexture());
