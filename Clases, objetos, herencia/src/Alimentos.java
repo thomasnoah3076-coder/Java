@@ -2,8 +2,8 @@ class Alimentos extends Producto {
     private String flavor;
     private String texture;
 
-    public Alimentos(String name, String type, double price, String code, int stock, String flavor, String texture) {
-        super(name, type, price, code, stock);
+    public Alimentos(String name, String type, double price, String code, int stock, String flavor, String texture, String email,int count, String nameSupplier) {
+        super(name, type, price, code, stock, nameSupplier, count, email);
         this.setFlavor(flavor);
         this.setTexture(texture);
     }

@@ -5,33 +5,36 @@ public abstract class Producto  {
     private String name;
     private String type;
     private double price;  // se crea una variable price para que el usuario ingrese el precio de su producto.
-    private double finalPrice;  // se crea otra variable para el precio final que sera sometida a un descuento.
+    private double finalPrice;  // se crea otra variable para el precio final que será sometida a un descuento.
     private String code;
     private int stock;
+    private final Proveedor supplier;
     private static int totalProductos;
 
+
     // el constructor de Producto al ser la clase padre (el cual es abstracto) inicializa el proceso de la construccion
-    // de objetos, despues de que haya atribuido cada parametro a cada atributo, envia la informacion a los
-    // constreuctores de sus clase hijas, los cuales puede decidir modificarlas segun les convenga.
-    public Producto(String name, String tipe, double baseprice, String code, int stock) {
+    // de objetos, después de que haya atribuido cada parametro a cada atributo, envia la información a los
+    // constructores de sus clases hijas, los cuales puede decidir modificarlas según les convenga.
+    public Producto(String name, String tipe, double baseprice, String code, int stock, String email,int count, String nameSupplier) {
         this.setName(name);
         this.setType(tipe);
 
-        // estos dos atributos trabajan con el mismo atributo. Lo dos lo validan, pero uno lo guarda tal cual
-        // (despues se modifica con la interfaz iva) y el otro le aplica un descuento.
+        // Estos dos atributos trabajan con el mismo atributo. Lo dos lo validan, pero uno lo guarda tal cual
+        // (después se modifica con la interfaz iva) y el otro le aplica un descuento.
         this.setPrice(baseprice);
         this.setFinalPrice(descuento(baseprice));
 
-        // Como descuento es un metodo abstracto, cada clase hijas define su contenido y como todas las clase hijas
+        // Como descuento es un metodo abstracto, cada clase hijas define su contenido y como todas las clases hijas
         // tienen su descuento definido esto no causa errores en el constructor de esta clase.
 
         this.setCode(code);
         this.setStock(stock);
+        this.supplier = new Proveedor(nameSupplier, count, email);
         totalProductos++;
     }
 
     // Getters y setters:  se utilizan generalmente para el encapsulamiento. El metodo de nombre
-    // get que se la asocia a un atributo para acceder a el. El metodo set para modificarlo.
+    // get que se la asocia a un atributo para acceder a él. El metodo set para modificarlo.
     public String getName() {
         return name;
     }
@@ -85,6 +88,14 @@ public abstract class Producto  {
         if (stock < 0) throw new IllegalArgumentException("El stock no puede ser negativo.");
         this.stock = stock;
     }
+
+    public Proveedor getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Proveedor supplier) {
+
+    }
     public static int getTotalProductos() {
         return totalProductos;
     }
@@ -102,17 +113,17 @@ public abstract class Producto  {
             return;
         }
 
-        // se crea p que es un objeto de la clase producto de manera temporal y lo ponemos a recorrer la lista.
-        // lo que estamos haciendo es guardar en una variable p el objeto para poder utilizar sus metodos.
+        // Se crea p que es un objeto de la clase producto de manera temporal y lo ponemos a recorrer la lista.
+        // Lo que estamos haciendo es guardar en una variable p el objeto para poder utilizar sus metodos.
         for (Producto p : listaProductos) {
             if (p.getCode().equals(code)) {
                 System.out.println("---Producto encontrado---");
                 System.out.println("Nombre: " + p.getName());
                 System.out.println("Precio de ingreso: " + p.getPrice());
                 if (p.getType().equalsIgnoreCase("Limpieza")){
-                    // lo que estamos haciendo aca es un casteo forzado, como se guardaron objetos de
+                    // Lo que estamos haciendo aca es un casteo forzado, como se guardaron objetos de
                     // tipo producto en la array list, y necasitamos acceder a los atributos internos
-                    // de un producto especifico, lo convertimos temporalmente en el objeto necesario.
+                    // de un producto específico, lo convertimos temporalmente en el objeto necesario.
                     // Tecnologia temp = (Tecnologia) p;
                     System.out.println("Precio con descuento e IVA: " + p.getFinalPrice());
                     System.out.println("Tipo:" + p.getType());
@@ -150,7 +161,7 @@ public abstract class Producto  {
         String name = sc.nextLine();
 
         System.out.print("Tipo (Limpieza/Tecnologia/Alimentos): ");
-        String tipe = sc.nextLine().trim();        // por que lee el salto de linea anterior como si fuese un espacio esta funcion ignora el salto de linea
+        String tipe = sc.nextLine().trim();        // porque lee el salto de línea anterior como si fuese un espacio esta funcion ignora el salto de línea
 
         System.out.print("Precio: ");
         double price = sc.nextDouble();
@@ -164,31 +175,43 @@ public abstract class Producto  {
         int stock = sc.nextInt();
         sc.nextLine(); // Limpiar buffer
 
+        System.out.println("Nombre del proveedor: ");
+        String nameSupplier = sc.nextLine();
+
+        System.out.println("Cuenta bancaria (10 digitos sin simbolos): ");
+        int count= sc.nextInt();
+
+        sc.nextLine();
+        System.out.println("Correo electronico: ");
+        String email = sc.nextLine();
+
         if (tipe.equalsIgnoreCase("limpieza")) {
             System.out.print("Uso: ");
             String use = sc.nextLine();
             System.out.print("Aroma: ");
             String scent = sc.nextLine();
-            listaProductos.add(new Limpieza(name, tipe, price, code, stock, use, scent));
+            listaProductos.add(new Limpieza(name, tipe, price, code, stock, use, scent, nameSupplier, count, email));
         } else if (tipe.equalsIgnoreCase("tecnologia") || tipe.equalsIgnoreCase("tecnología")) {
             System.out.print("Referencia (numérica): ");
             int ref = sc.nextInt();
             sc.nextLine(); // Limpiar buffer antes de leer String
             System.out.print("Marca: ");
             String brand = sc.nextLine();
-            listaProductos.add(new Tecnologia(name, tipe, price, code, stock, ref, brand));
+            listaProductos.add(new Tecnologia(name, tipe, price, code, stock, ref, brand, nameSupplier, count, email));
         } else if (tipe.equalsIgnoreCase("alimentos")) {
             System.out.print("Sabor: ");
             String flavor = sc.nextLine();
             System.out.print("Textura: ");
             String texture = sc.nextLine();
-            listaProductos.add(new Alimentos(name, tipe, price, code, stock, flavor, texture));
+            listaProductos.add(new Alimentos(name, tipe, price, code, stock, flavor, texture, nameSupplier, count, email));
         } else {
             System.out.println("Tipo no reconocido. Creando producto genérico...");
-            listaProductos.add(new Generico(name, tipe, price, code, stock));
+            listaProductos.add(new Generico(name, tipe, price, code, stock, nameSupplier, count, email));
         }
         System.out.println("¡Producto registrado con éxito!");
     }
 
     public abstract double descuento(double basePrice) ;
+
+
 }

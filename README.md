@@ -1,8 +1,12 @@
+Aquí tienes el **README.md** completo y unificado, incluyendo todas las secciones anteriores y las nuevas adiciones sobre estructuras de datos y sus funciones principales:
+
+---
+
 # Curso de Java - MoureDev ☕
 
 Este repositorio contiene los apuntes, ejercicios y conceptos fundamentales aprendidos durante el curso de **Java desde cero** impartido por [MoureDev](https://www.youtube.com/watch?v=JOAqpdM36wI&t=29037s).
 
-El objetivo de este proyecto es servir como guía de referencia para los pilares de la Programación Orientada a Objetos (POO) y el desarrollo en Java .
+El objetivo de este proyecto es servir como guía de referencia para los pilares de la Programación Orientada a Objetos (POO) y el desarrollo en Java.
 
 ## 🚀 Conceptos Fundamentales
 
@@ -10,47 +14,88 @@ El objetivo de este proyecto es servir como guía de referencia para los pilares
 * **Clase:** Es el "molde" o plantilla general para crear objetos. Define los atributos y comportamientos comunes.
 * **Objeto:** Es una instancia de una clase. Representa una entidad específica con características propias y valores únicos.
 
+---
+
 ### 2. Modificadores de Acceso y Palabras Reservadas
 Controlan el nivel de visibilidad de los atributos y métodos:
 
-| Modificador | Visibilidad |
-| :--- | :--- |
-| `public` | Accesible desde cualquier punto del programa. |
-| `(default)` | Accesible solo desde el mismo paquete. |
-| `protected` | Accesible desde la misma clase y subclases (herencia). |
-| `private` | Solo accesible dentro de la propia clase; protege los atributos de modificaciones externas directas. |
-| `final` | Define una constante; el valor de la variable no puede ser modificado una vez asignado. |
+| Modificador | Visibilidad                                                                                          |
+|:------------|:-----------------------------------------------------------------------------------------------------|
+| `public`    | Accesible desde cualquier punto del programa.                                                        |
+| `(default)` | Accesible solo desde el mismo paquete.                                                               |
+| `protected` | Accesible desde la misma clase y subclases (herencia).                                               |
+| `private`   | Solo accesible dentro de la propia clase; protege los atributos de modificaciones externas directas. |
+| `final`     | Define una constante; el valor de la variable no puede ser modificado una vez asignado.              |
 
 ---
 
-### 3. Herencia
+### 3. Array, ArrayList y HashMap con objetos
+Estas estructuras permiten agrupar y gestionar múltiples objetos de forma eficiente, cada una con características específicas según la necesidad del programa.
+
+
+
+#### **Comparativa de Estructuras**
+| Estructura | Tamaño | Acceso | Orden |
+| :--- | :--- | :--- | :--- |
+| **Array** | Estático (Fijo) | Por índice (`[0]`) | Mantiene el orden de inserción. |
+| **ArrayList** | Dinámico | Por índice (`.get(i)`) | Mantiene el orden de inserción. |
+| **HashMap** | Dinámico | Por clave (`.get(key)`) | No garantiza un orden específico. |
+
+#### **🛠️ Funciones y Métodos Imprescindibles**
+
+**1. Para Arrays (Clase `java.util.Arrays`)**
+* `.length`: Propiedad que devuelve el tamaño fijo del array.
+* `Arrays.toString(miArray)`: Convierte el contenido a una cadena de texto legible.
+* `Arrays.sort(miArray)`: Ordena los elementos de forma ascendente.
+
+**2. Para ArrayList (Interfaz `List`)**
+* `.add(objeto)`: Añade un elemento al final de la lista.
+* `.get(index)`: Recupera el elemento en la posición especificada.
+* `.remove(index)` o `.remove(objeto)`: Elimina un elemento.
+* `.size()`: Devuelve el número de elementos actuales.
+* `.contains(objeto)`: Devuelve `true` si el elemento existe en la lista.
+
+**3. Para HashMap (Interfaz `Map`)**
+* `.put(llave, valor)`: Inserta un par clave-valor (o actualiza si la llave existe).
+* `.get(llave)`: Devuelve el valor asociado a la llave.
+* `.containsKey(llave)`: Verifica si existe una entrada con esa clave.
+* `.keySet()`: Devuelve un conjunto con todas las llaves para iterar.
+
+---
+
+### 4. Herencia
 Mecanismo donde una **clase padre** (superclase) transmite sus atributos y métodos a una **clase hija** (subclase).
 
-* **Palabra reservada `super`:** * Permite llamar al constructor de la superclase para inicializar atributos de forma sencilla.
-    * Se utiliza para invocar métodos de la superclase cuando tienen el mismo nombre que los de la clase hija, facilitando su distinción.
+* **Palabra reservada `super`:**
+  * Permite llamar al constructor de la superclase para inicializar atributos de forma sencilla.
+  * Se utiliza para invocar métodos de la superclase cuando tienen el mismo nombre que los de la clase hija.
 
 ---
 
-### 4. Polimorfismo
+### 5. Polimorfismo
 Capacidad de que diferentes objetos respondan de manera distinta a un mismo estímulo o método.
 
-* **Polimorfismo por herencia (Sobreescritura):** Las clases hijas utilizan métodos heredados pero modifican su comportamiento específico.
+* **Polimorfismo por herencia (Sobrescritura):** Las clases hijas utilizan métodos heredados, pero modifican su comportamiento específico.
 * **Polimorfismo por sobrecarga:** Se define el mismo método varias veces, pero ajustando el número, tipo u orden de los parámetros.
 
 ---
 
-### 5. Abstracción
+### 6. Abstracción
 Se centra en el "qué hace" un objeto más que en el "cómo lo hace", ocultando la complejidad lógica.
 
-* **Clase Abstracta (`abstract`):** * Es una clase particular diseñada para ejecutar lógica pero que **no puede ser instanciada** por sí sola.
-    * Ejemplo: `public abstract class Producto { ... }`
-* **Interfaz:** * Funciona como un "contrato". Define métodos que deben ser implementados de manera obligatoria por las clases que la utilicen.
-    * Diferentes subclases pueden implementar la misma interfaz de formas únicas e individuales.
+* **Clase Abstracta (`abstract`):** Es una clase diseñada para ejecutar lógica, pero que **no puede ser instanciada** por sí sola.
+* **Interfaz:** Funciona como un "contrato". Define métodos que deben ser implementados de manera obligatoria por las clases que la utilicen.
 
 ---
 
-### 6. Manejo de Errores
-Implementación de bloques para gestionar excepciones y asegurar que el programa pueda responder ante fallos inesperados sin detener su ejecución bruscamente.
+### 7. Composición
+Consiste en utilizar un objeto como atributo de otro. Mientras que la herencia se entiende como **"ES UN"**, en la composición se interpreta como **"TIENE UN"**.
+* *Ejemplo:* Una clase `Limpieza` hereda de `Producto` (**es un** producto), pero un `Producto` **tiene un** `Proveedor` (composición).
+
+---
+
+### 8. Manejo de Errores
+Implementación de bloques `try-catch` para gestionar excepciones y asegurar que el programa pueda responder ante fallos inesperados sin detener su ejecución bruscamente.
 
 ---
 
@@ -61,3 +106,6 @@ Implementación de bloques para gestionar excepciones y asegurar que el programa
 
 ## 🔗 Referencias
 * [Video del Curso Completo - MoureDev](https://www.youtube.com/watch?v=JOAqpdM36wI&t=29037s)
+
+---
+http://googleusercontent.com/youtube_content/1

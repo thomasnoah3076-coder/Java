@@ -1,7 +1,7 @@
 public class Generico extends Producto {
 
-    public Generico(String name, String type, double baseprice, String code, int stock){
-        super(name, type, baseprice, code, stock);
+    public Generico(String name, String type, double baseprice, String code, int stock, String email,int count, String nameSupplier){
+        super(name, type, baseprice, code, stock, nameSupplier, count, email);
     }
 
     public double descuento(double baseprice) {

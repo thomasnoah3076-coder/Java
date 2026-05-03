@@ -4,8 +4,8 @@ class Limpieza extends Producto implements IVA{
     private String use;
     private String scent;
 
-    public Limpieza(String name,String type, double price, String code, int stock, String use, String scent) {
-        super(name,type,price,code,stock);
+    public Limpieza(String name,String type, double price, String code, int stock, String use, String scent, String email,int count, String nameSupplier) {
+        super(name,type,price,code,stock,nameSupplier, count, email);
         this.setPrice(calcularIVA(price));
         this.setUse(use);
         this.setScent(scent);
