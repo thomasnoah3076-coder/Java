@@ -1,6 +1,6 @@
+import java.util.*;
 
-
-    void main() {
+    void main() throws Excepciones.NombreVacioException, Excepciones.StockNoValidoException, Excepciones.PrecioNoValidoException, Excepciones.CuentaNoValidaException, Excepciones.CodigoNoValidoException {
         Scanner sc = new Scanner(System.in);
         boolean continuar = true;
         ArrayList<Producto> listaProductos = new ArrayList<>();

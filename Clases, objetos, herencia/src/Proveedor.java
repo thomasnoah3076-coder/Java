@@ -27,14 +27,7 @@ public class Proveedor {
     }
 
     public void setCount(int count) {
-            try {
-                int digitos = String.valueOf(Math.abs(count)).length();
-                if (digitos == 10) {
-                    this.count = count;
-                } throw new InputMismatchException("La cuenta es invalida.");
-            } catch (InputMismatchException e) {
-                System.out.println(" Error: Mmm... parece que te hemos pedido un numero pero me has dado otra cosa.");
-            }
+        this.count = count;
     }
 
     public String getEmail() {

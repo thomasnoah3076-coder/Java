@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public abstract class Producto  {
     private String name;
     private String type;
@@ -8,16 +9,16 @@ public abstract class Producto  {
     private double finalPrice;  // se crea otra variable para el precio final que será sometida a un descuento.
     private String code;
     private int stock;
-    private final Proveedor supplier;
+    private Proveedor supplier;
     private static int totalProductos;
 
 
     // el constructor de Producto al ser la clase padre (el cual es abstracto) inicializa el proceso de la construccion
     // de objetos, después de que haya atribuido cada parametro a cada atributo, envia la información a los
     // constructores de sus clases hijas, los cuales puede decidir modificarlas según les convenga.
-    public Producto(String name, String tipe, double baseprice, String code, int stock, String email,int count, String nameSupplier) {
+    public Producto(String name, String type, double baseprice, String code, int stock, String email,int count, String nameSupplier) {
         this.setName(name);
-        this.setType(tipe);
+        this.setType(type);
 
         // Estos dos atributos trabajan con el mismo atributo. Lo dos lo validan, pero uno lo guarda tal cual
         // (después se modifica con la interfaz iva) y el otro le aplica un descuento.
@@ -33,18 +34,16 @@ public abstract class Producto  {
         totalProductos++;
     }
 
-    // Getters y setters:  se utilizan generalmente para el encapsulamiento. El metodo de nombre
-    // get que se la asocia a un atributo para acceder a él. El metodo set para modificarlo.
+    // Getters y setters:  se utilizan generalmente para el encapsulamiento. El método de nombre
+    // get que se la asocia a un atributo para acceder a él. El método set para modificarlo.
     public String getName() {
         return name;
     }
 
-    // comentario de prueba
-
     public void setName(String name) {
         this.name = name;
-//      this se utiliza para referirse a un atributo de una clase y name es la variable(parametro)
-//      que se el asigna al objeto para su cración.
+//      this se utiliza para referirse a un atributo de una clase y name es la variable(parámetro)
+//      que se el asigna al objeto para su creación.
     }
 
     public String getType() {
@@ -56,10 +55,13 @@ public abstract class Producto  {
     public double getPrice(  ) {return price;}
 
     public void setPrice(double price) {
-        if (price <= 0.0) throw new IllegalArgumentException("El precio no puede tomar ese valor.");
-//      Si el precio tiene un valor igual o menor a 0 el programa se rompe, si es mayor a 0 se le
-//      asigna el valor al atributo para la creacion del objeto.
-        this.price = price;
+        if (price > 0.0) {
+            this.price = price;
+        } else {
+            throw new IllegalArgumentException("El precio no puede tomar ese valor.");
+            // Si el precio tiene un valor igual o menor a 0 el programa lanza un error, si es mayor a 0 se le
+            // asigna el valor al atributo para la creación del objeto.
+        }
     }
 
     public double getFinalPrice() {
@@ -94,7 +96,7 @@ public abstract class Producto  {
     }
 
     public void setSupplier(Proveedor supplier) {
-
+        this.supplier= supplier;
     }
     public static int getTotalProductos() {
         return totalProductos;
@@ -155,33 +157,48 @@ public abstract class Producto  {
         }
     }
 
-    public static void nuevoObjeto(Scanner sc, ArrayList<Producto> listaProductos) {
+    public static void nuevoObjeto(Scanner sc, ArrayList<Producto> listaProductos) throws Excepciones.NombreVacioException, Excepciones.StockNoValidoException, Excepciones.PrecioNoValidoException, Excepciones.CodigoNoValidoException, Excepciones.CuentaNoValidaException {
         System.out.println("\n--- Registro de Nuevo Producto ---");
-        System.out.print("Nombre: ");
-        String name = sc.nextLine();
+        String tipe = "";
+        String name = "";
+        double price = 0.0;
+        String code = "";
+        int stock = 0;
+        int count = 0;
 
-        System.out.print("Tipo (Limpieza/Tecnologia/Alimentos): ");
-        String tipe = sc.nextLine().trim();        // porque lee el salto de línea anterior como si fuese un espacio esta funcion ignora el salto de línea
+        boolean esValido = false;
+        while (!esValido){
+            try {
+                System.out.print("Tipo (Limpieza/Tecnologia/Alimentos): ");
+                tipe = sc.nextLine().trim();        // porque lee el salto de línea anterior como si fuese un espacio esta funcion ignora el salto de línea
 
-        System.out.print("Precio: ");
-        double price = sc.nextDouble();
+                System.out.print("Nombre: ");
+                name = sc.nextLine();
 
-        sc.nextLine(); // Limpiar buffer
+                System.out.print("Precio: ");
+                price = sc.nextDouble();
 
-        System.out.print("Código (C...): ");
-        String code = sc.nextLine();
+                System.out.print("Código (C...): ");
+                code = sc.nextLine();
 
-        System.out.print("Stock inicial: ");
-        int stock = sc.nextInt();
-        sc.nextLine(); // Limpiar buffer
+                System.out.println("Stock: ");
+                stock = sc.nextInt();
+
+                System.out.println("Cuenta bancaria (10 digitos sin simbolos): ");
+                count = sc.nextInt();
+                sc.nextLine();
+
+                verificador(name, price, code, stock, count);
+                esValido = true;
+            } catch (Excepciones.NombreVacioException | Excepciones.PrecioNoValidoException | Excepciones.CodigoNoValidoException | Excepciones.StockNoValidoException | Excepciones.CuentaNoValidaException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
 
         System.out.println("Nombre del proveedor: ");
         String nameSupplier = sc.nextLine();
 
-        System.out.println("Cuenta bancaria (10 digitos sin simbolos): ");
-        int count= sc.nextInt();
-
-        sc.nextLine();
         System.out.println("Correo electronico: ");
         String email = sc.nextLine();
 
@@ -210,8 +227,22 @@ public abstract class Producto  {
         }
         System.out.println("¡Producto registrado con éxito!");
     }
-
+    public static void verificador (String name, double price, String code, int stock, int count) throws Excepciones.PrecioNoValidoException, Excepciones.CodigoNoValidoException, Excepciones.NombreVacioException, Excepciones.StockNoValidoException, Excepciones.CuentaNoValidaException {
+        if (name == null || name.trim().isEmpty()){
+            throw new Excepciones.NombreVacioException("Este nombre esta vacío amigo, llenalo un poco");
+        }
+        if(price <= 0.0 ){
+            throw new Excepciones.PrecioNoValidoException("Vaya parece que el precio que me has dado esta algo sospechoso. Vuelve a ingresarlos por favor.");
+        }
+        if (code == null || !code.startsWith("C")){
+            throw new Excepciones.CodigoNoValidoException("Este código no empieza por C mayúscula wey. Vuelve a itentarlo. ");
+        }
+        if (stock <= 0){
+            throw new Excepciones.StockNoValidoException("Amig@ el stock de un producto no puede tomar ese valor!!!");
+        }
+        if (String.valueOf(Math.abs(count)).length() != 10){
+            throw new Excepciones.CuentaNoValidaException("Vaya te he pedido un numero de cuenta con 10 dígitos. Vuelve a intentarlo.");
+        }
+    }
     public abstract double descuento(double basePrice) ;
-
-
 }
