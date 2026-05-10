@@ -16,11 +16,11 @@ public abstract class Producto  {
     // el constructor de Producto al ser la clase padre (el cual es abstracto) inicializa el proceso de la construccion
     // de objetos, después de que haya atribuido cada parametro a cada atributo, envia la información a los
     // constructores de sus clases hijas, los cuales puede decidir modificarlas según les convenga.
-    public Producto(String name, String type, double baseprice, String code, int stock, String email,int count, String nameSupplier) {
+    public Producto(String name, String type, double baseprice, String code, int stock, String email,long count, String nameSupplier) {
         this.setName(name);
         this.setType(type);
 
-        // Estos dos atributos trabajan con el mismo atributo. Lo dos lo validan, pero uno lo guarda tal cual
+        // Estos dos atributos trabajan con la misma variable. Lo dos lo validan, pero uno lo guarda tal cual
         // (después se modifica con la interfaz iva) y el otro le aplica un descuento.
         this.setPrice(baseprice);
         this.setFinalPrice(descuento(baseprice));
@@ -55,13 +55,7 @@ public abstract class Producto  {
     public double getPrice(  ) {return price;}
 
     public void setPrice(double price) {
-        if (price > 0.0) {
             this.price = price;
-        } else {
-            throw new IllegalArgumentException("El precio no puede tomar ese valor.");
-            // Si el precio tiene un valor igual o menor a 0 el programa lanza un error, si es mayor a 0 se le
-            // asigna el valor al atributo para la creación del objeto.
-        }
     }
 
     public double getFinalPrice() {
@@ -69,7 +63,6 @@ public abstract class Producto  {
     }
 
     public void setFinalPrice(double finalPrice) {
-        if (finalPrice <= 0.0) throw new IllegalArgumentException("El precio no puede tomar ese valor.");
         this.finalPrice = finalPrice;
     }
 
@@ -135,7 +128,7 @@ public abstract class Producto  {
                     System.out.println("Precio con descuento e IVA: " + p.getFinalPrice());
                     System.out.println("Tipo:" + p.getType());
                     System.out.println("Referencia (numérica): " + ((Tecnologia) p).getReference());
-                    System.out.println("Marca: " + ((Tecnologia) p).getReference());
+                    System.out.println("Marca: " + ((Tecnologia) p).getBrand());
                 } else if (p.getType().equalsIgnoreCase("alimentos")) {
                     System.out.println("Precio : " + p.getFinalPrice());
                     System.out.println("Tipo:" + p.getType());
@@ -159,42 +152,14 @@ public abstract class Producto  {
 
     public static void nuevoObjeto(Scanner sc, ArrayList<Producto> listaProductos) throws Excepciones.NombreVacioException, Excepciones.StockNoValidoException, Excepciones.PrecioNoValidoException, Excepciones.CodigoNoValidoException, Excepciones.CuentaNoValidaException {
         System.out.println("\n--- Registro de Nuevo Producto ---");
-        String tipe = "";
-        String name = "";
-        double price = 0.0;
-        String code = "";
-        int stock = 0;
-        int count = 0;
+        System.out.print("Tipo (Limpieza/Tecnologia/Alimentos): ");
+        String type = sc.nextLine().trim();// porque lee el salto de línea anterior como si fuese un espacio esta funcion ignora el salto de línea
 
-        boolean esValido = false;
-        while (!esValido){
-            try {
-                System.out.print("Tipo (Limpieza/Tecnologia/Alimentos): ");
-                tipe = sc.nextLine().trim();        // porque lee el salto de línea anterior como si fuese un espacio esta funcion ignora el salto de línea
-
-                System.out.print("Nombre: ");
-                name = sc.nextLine();
-
-                System.out.print("Precio: ");
-                price = sc.nextDouble();
-
-                System.out.print("Código (C...): ");
-                code = sc.nextLine();
-
-                System.out.println("Stock: ");
-                stock = sc.nextInt();
-
-                System.out.println("Cuenta bancaria (10 digitos sin simbolos): ");
-                count = sc.nextInt();
-                sc.nextLine();
-
-                verificador(name, price, code, stock, count);
-                esValido = true;
-            } catch (Excepciones.NombreVacioException | Excepciones.PrecioNoValidoException | Excepciones.CodigoNoValidoException | Excepciones.StockNoValidoException | Excepciones.CuentaNoValidaException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
+        String name = validarNombre(sc);
+        double price = validarPrecio(sc);
+        String code = validarCodigo(sc);
+        int stock = validarStock(sc);
+        long count = validarCuenta(sc);
 
         System.out.println("Nombre del proveedor: ");
         String nameSupplier = sc.nextLine();
@@ -202,47 +167,96 @@ public abstract class Producto  {
         System.out.println("Correo electronico: ");
         String email = sc.nextLine();
 
-        if (tipe.equalsIgnoreCase("limpieza")) {
+        if (type.equalsIgnoreCase("limpieza")) {
             System.out.print("Uso: ");
             String use = sc.nextLine();
             System.out.print("Aroma: ");
             String scent = sc.nextLine();
-            listaProductos.add(new Limpieza(name, tipe, price, code, stock, use, scent, nameSupplier, count, email));
-        } else if (tipe.equalsIgnoreCase("tecnologia") || tipe.equalsIgnoreCase("tecnología")) {
+            listaProductos.add(new Limpieza(name, type, price, code, stock, use, scent, nameSupplier, count, email));
+        } else if (type.equalsIgnoreCase("tecnologia") || type.equalsIgnoreCase("tecnología")) {
             System.out.print("Referencia (numérica): ");
             int ref = sc.nextInt();
             sc.nextLine(); // Limpiar buffer antes de leer String
             System.out.print("Marca: ");
             String brand = sc.nextLine();
-            listaProductos.add(new Tecnologia(name, tipe, price, code, stock, ref, brand, nameSupplier, count, email));
-        } else if (tipe.equalsIgnoreCase("alimentos")) {
+            listaProductos.add(new Tecnologia(name, type, price, code, stock, ref, brand, nameSupplier, count, email));
+        } else if (type.equalsIgnoreCase("alimentos")) {
             System.out.print("Sabor: ");
             String flavor = sc.nextLine();
             System.out.print("Textura: ");
             String texture = sc.nextLine();
-            listaProductos.add(new Alimentos(name, tipe, price, code, stock, flavor, texture, nameSupplier, count, email));
+            listaProductos.add(new Alimentos(name, type, price, code, stock, flavor, texture, nameSupplier, count, email));
         } else {
             System.out.println("Tipo no reconocido. Creando producto genérico...");
-            listaProductos.add(new Generico(name, tipe, price, code, stock, nameSupplier, count, email));
+            listaProductos.add(new Generico(name, type, price, code, stock, nameSupplier, count, email));
         }
         System.out.println("¡Producto registrado con éxito!");
     }
-    public static void verificador (String name, double price, String code, int stock, int count) throws Excepciones.PrecioNoValidoException, Excepciones.CodigoNoValidoException, Excepciones.NombreVacioException, Excepciones.StockNoValidoException, Excepciones.CuentaNoValidaException {
-        if (name == null || name.trim().isEmpty()){
-            throw new Excepciones.NombreVacioException("Este nombre esta vacío amigo, llenalo un poco");
-        }
-        if(price <= 0.0 ){
-            throw new Excepciones.PrecioNoValidoException("Vaya parece que el precio que me has dado esta algo sospechoso. Vuelve a ingresarlos por favor.");
-        }
-        if (code == null || !code.startsWith("C")){
-            throw new Excepciones.CodigoNoValidoException("Este código no empieza por C mayúscula wey. Vuelve a itentarlo. ");
-        }
-        if (stock <= 0){
-            throw new Excepciones.StockNoValidoException("Amig@ el stock de un producto no puede tomar ese valor!!!");
-        }
-        if (String.valueOf(Math.abs(count)).length() != 10){
-            throw new Excepciones.CuentaNoValidaException("Vaya te he pedido un numero de cuenta con 10 dígitos. Vuelve a intentarlo.");
+
+    public static String validarNombre (Scanner sc ) throws Excepciones.NombreVacioException {
+        while (true) {
+            try {
+                System.out.print("Nombre: ");
+                String name = sc.nextLine();
+                if (name == null || name.trim().isEmpty()) throw new Excepciones.NombreVacioException("Este nombre esta vacío amigo, llenalo un poco");
+                return name;
+            } catch (Excepciones.NombreVacioException e ){
+                System.out.println("ERROR: "+ e.getMessage());
+            }
         }
     }
+    public static double validarPrecio ( Scanner sc ) throws Excepciones.PrecioNoValidoException {
+        while (true) {
+            try {
+                System.out.print("Precio: ");
+                double price = sc.nextDouble();
+                if(price <= 0.0 ) throw new Excepciones.PrecioNoValidoException("Vaya parece que el precio que me has dado esta algo sospechoso. Vuelve a ingresarlos por favor.");
+                return price;
+            } catch (Excepciones.PrecioNoValidoException e ){
+                sc.nextLine();
+                System.out.println("ERROR: "+ e.getMessage());
+            }
+        }
+    }
+    public static String validarCodigo (Scanner sc ) throws Excepciones.CodigoNoValidoException {
+        while (true) {
+            try {
+                System.out.print("Código (C...): ");
+                String code = sc.nextLine();
+                if (code == null || !code.startsWith("C")) throw new Excepciones.CodigoNoValidoException("Este código no empieza por C mayúscula wey. Vuelve a itentarlo. ");
+                return code;
+            } catch (Excepciones.CodigoNoValidoException e ){
+                System.out.println("ERROR: "+ e.getMessage());
+            }
+        }
+    }
+    public static int validarStock (Scanner sc ) throws Excepciones.StockNoValidoException {
+        while (true) {
+            try {
+                System.out.println("Stock: ");
+                int stock = sc.nextInt();
+                if (stock <= 0) throw new Excepciones.StockNoValidoException("Amig@ el stock de un producto no puede tomar ese valor!!!");
+                return stock;
+            } catch (Excepciones.StockNoValidoException e ){
+                sc.nextLine();
+                System.out.println("ERROR: "+ e.getMessage());
+            }
+        }
+    }
+    public static long validarCuenta (Scanner sc) throws Excepciones.CuentaNoValidaException {
+        while (true) {
+            try {
+                System.out.println("Cuenta bancaria (10 digitos sin simbolos): ");
+                long count = sc.nextLong();
+                if (String.valueOf(Math.abs(count)).length() != 10){
+                    throw new Excepciones.CuentaNoValidaException("Vaya te he pedido un numero de cuenta con 10 dígitos. Vuelve a intentarlo.");
+                }
+            } catch (Excepciones.CuentaNoValidaException e ){
+                sc.nextLine();
+                System.out.println("ERROR: "+ e.getMessage());
+            }
+        }
+    }
+
     public abstract double descuento(double basePrice) ;
 }

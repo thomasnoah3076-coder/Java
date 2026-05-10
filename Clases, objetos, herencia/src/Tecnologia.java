@@ -4,7 +4,7 @@ class Tecnologia extends Producto implements IVA{
     private int reference;
     private String brand;
 
-    public Tecnologia(String name, String type,  double basePrice, String code, int stock, int reference, String brand, String email,int count, String nameSupplier) {
+    public Tecnologia(String name, String type,  double basePrice, String code, int stock, int reference, String brand, String email,Long count, String nameSupplier) {
         // "Super" llama al constructor de la clase abstracta Producto.
         super(name ,type, basePrice, code, stock, nameSupplier, count, email);
         // Después modificamos la variable con set price y a su vez

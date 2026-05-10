@@ -1,6 +1,3 @@
-Aquí tienes el **README.md** completo y unificado, incluyendo todas las secciones anteriores y las nuevas adiciones sobre estructuras de datos y sus funciones principales:
-
----
 
 # Curso de Java - MoureDev ☕
 

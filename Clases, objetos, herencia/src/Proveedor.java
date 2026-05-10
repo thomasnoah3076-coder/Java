@@ -4,10 +4,10 @@ import java.util.*;
 public class Proveedor {
 
     private String nameSupplier;
-    private int count;
+    private long count;
     private String email;
 
-    public Proveedor (String nameSupplier, int count, String email) {
+    public Proveedor (String nameSupplier, long count, String email) {
         this.setNameSupplier(nameSupplier);
         this.setCount(count);
         this.setEmail(email);
@@ -22,11 +22,11 @@ public class Proveedor {
         this.nameSupplier = nameSupplier;
     }
 
-    public int getCount() {
-        return count;
+    public long getCount() {
+        return  count;
     }
 
-    public void setCount(int count) {
+    public void setCount(long count) {
         this.count = count;
     }
 
